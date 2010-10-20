@@ -1,0 +1,5 @@
+The chart displayed is still hardcoded to display a single campers statistics.
+There are no sanity checks or maintenance. If left unchecked this would fill up the allotted datastore space.
+There is "cleanup" code scattered around that I used to clean the datastore of duplicate/bad data that got inserted as I was learning + writing the insert stuff.
+Allow the user to choose which (possible several) camper's statistics to display
+Allow for user selectable chart styles.
