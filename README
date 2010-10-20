@@ -1,0 +1,17 @@
+A demonstration of Google App Engine for BarCampMilwaukee
+Originally at BarCampMilaukee5 10/2/2010 - 10/3/2010
+
+Mike Putnam <mike@theputnams.net>
+
+This project scrapes http://barcampmilwaukee.org/joules and produces a
+Flot chart http://code.google.com/p/flot/ from the data.
+
+Progam flow:
+
+Produce a json encoded data point from the datastore to feed the Flot 
+library on the homepage.
+
+Via cron:
+scrape
+determine if we've seen this statistic already
+if not, add it to the datastore
