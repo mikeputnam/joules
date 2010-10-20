@@ -1,0 +1,14 @@
+indexes:
+- kind: Stat
+  properties:
+  - name: camper
+  - name: timestamp
+- kind: Stat
+  properties:
+  - name: camper
+  - name: joules
+  - name: timestamp
+- kind: Stat
+  properties:
+  - name: camper
+  - name: joules
