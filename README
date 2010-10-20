@@ -9,7 +9,7 @@ Flot chart http://code.google.com/p/flot/ from the data.
 Progam flow:
 
 Produce a json encoded data point from the datastore to feed the Flot 
-library on the homepage.
+library on http://bcmkejoules.appspot.com/
 
 Via cron:
 scrape
