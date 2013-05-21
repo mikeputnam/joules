@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>v2.0</title>
+    <link href="/stylesheets/layout.css" rel="stylesheet" type="text/css"></link>
+    <!--[if IE]><script language="javascript" type="text/javascript" src="/js/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/js/jquery.flot.js"></script>
+ </head>
+    <body>
+    <h1>v2.0</h1>
+    <div id="loading"><img src="/images/ajax-loader.gif" alt=""/>Loading data...</div>
+    <div id="placeholder" style="width:600px;height:300px;"></div>
+    
+
+<script type="text/javascript">
+function populatechart(choice) {
+var pathandparms = '/json?&campername=' + choice;
+    $.getJSON(pathandparms, function(data) {
+        for (var i = 0; i < data.data.length; ++i)
+            data.data[i][0] = (data.data[i][0] * 1000) + (((60 * 60 * 1000) * 5) * -1);
+            
+        $.plot($("#placeholder"), [data], { 
+            series: {
+               lines: { show: true },
+               points: { show: true }
+            },
+            grid: { 
+                hoverable: true, 
+                clickable: true 
+            },
+            xaxis: { 
+                mode: "time",
+                timeformat: "%m/%d %h:%M%p"
+            } 
+        });
+
+        $('#loading').hide();
+
+        function showTooltip(x, y, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css( {
+                position: 'absolute',
+                display: 'none',
+                top: y + 5,
+                left: x + 5,
+                border: '1px solid #fdd',
+                padding: '2px',
+                'background-color': '#fee',
+                opacity: 0.80
+            }).appendTo("body").fadeIn(200);
+        }
+
+        var previousPoint = null;
+        $("#placeholder").bind("plothover", function (event, pos, item) {
+            if (item) {
+                if (previousPoint != item.datapoint) {
+                    previousPoint = item.datapoint;
+
+                    $("#tooltip").remove();
+                    var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(2);
+
+                    //showTooltip(item.pageX, item.pageY, item.series.label + " of " + x + " = " + y);
+                    showTooltip(item.pageX,item.pageY, Math.floor(y) + " joules");
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+
+        });
+    }); //end getJSON
+} //end function populatechart()
+
+
+$(function () {
+    $.getJSON("/jsoncamperlist", function(data) {
+        var html = '';
+        $.each(data.camperlist, function(i,val) {
+            html += '<option value="' + val + '">' + val + '</option>';
+        });
+        $("#campername").append(html);
+        populatechart($("#campername option:eq(0)").val());//first run
+    });
+});
+</script>
+
+    <div id="choosecamper">
+    <form id="camper" name="camper" method="post" action="/">
+    Camper Name: <select id="campername" name="campername" onchange='populatechart(this.form.campername.value);'></select>
+    </form>
+    </div>
+
+
+ </body>
+</html>
+

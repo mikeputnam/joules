@@ -1,8 +1,8 @@
 cron:
-- description: cleanup job
-  url: /cleanup
-  schedule: every 99 hours 
-- description: scrape job
-  url: /scrape
-  schedule: every 15 minutes
+#- description: cleanup job
+#  url: /cleanup
+#  schedule: every 99 hours 
+#- description: scrape job
+#  url: /scrape
+#  schedule: every 4 hours
 
